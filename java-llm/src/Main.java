@@ -2,9 +2,15 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        NeuralNetwork neuralNetwork = new NeuralNetwork(10, 10, 0.01);
+        NeuralNetwork neuralNetwork = new NeuralNetwork(10, 10, 0.5);
+        neuralNetwork.loadWeights("../data/weights.bin"); // Load weights if available
+
         ContextStorage contextStorage = new ContextStorage();
         LLM llm = new LLM(neuralNetwork);
+
+        // Train from user_context.txt on start
+        llm.trainFromContextFile("../data/user_context.txt");
+
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Type 'exit' to quit.");
@@ -20,7 +26,6 @@ public class Main {
             String response = llm.generateResponse(userInput, previousContext);
             System.out.println("LLM: " + response);
 
-            // Ask user for expected output and train
             System.out.print("Expected LLM output (or leave blank to skip training): ");
             String expectedOutput = scanner.nextLine();
             if (!expectedOutput.trim().isEmpty()) {
@@ -28,6 +33,7 @@ public class Main {
                 System.out.println("Model trained on your correction.");
             }
         }
+        neuralNetwork.saveWeights("../data/weights.bin"); // Save weights on exit
         scanner.close();
     }
 }

@@ -1,3 +1,6 @@
+import java.io.*;
+import java.util.*;
+
 public class LLM {
     private NeuralNetwork neuralNetwork;
 
@@ -52,6 +55,23 @@ public class LLM {
             nextWord = "(no prediction)";
         }
         return nextWord;
+    }
+
+    // Train on each line in user_context.txt (predict next word for each pair of words)
+    public void trainFromContextFile(String contextFilePath) {
+        try (BufferedReader br = new BufferedReader(new FileReader(contextFilePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] words = line.trim().split("\\s+");
+                for (int i = 0; i < words.length - 1; i++) {
+                    String input = String.join(" ", Arrays.copyOfRange(words, 0, i + 1));
+                    String expected = words[i + 1];
+                    trainOnPair(input, expected);
+                }
+            }
+        } catch (IOException e) {
+            // Ignore if file doesn't exist
+        }
     }
 
     public static void main(String[] args) {

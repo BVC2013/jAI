@@ -1,3 +1,5 @@
+import java.io.*;
+
 public class NeuralNetwork {
     private double[][] weights;
     private double learningRate;
@@ -47,5 +49,21 @@ public class NeuralNetwork {
 
     public void setWeights(double[][] weights) {
         this.weights = weights;
+    }
+
+    public void saveWeights(String filename) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))) {
+            oos.writeObject(weights);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadWeights(String filename) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename))) {
+            weights = (double[][]) ois.readObject();
+        } catch (Exception e) {
+            // Ignore if file doesn't exist or can't be read
+        }
     }
 }
