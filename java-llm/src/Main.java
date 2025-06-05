@@ -13,6 +13,7 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
 
+        
         System.out.println("Type 'exit' to quit.");
         while (true) {
             String previousContext = contextStorage.loadContext();
