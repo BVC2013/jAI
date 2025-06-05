@@ -1,3 +1,9 @@
+//Bhavyansh Shivakoti
+//06/05/2025
+//My jAI LLM project. Not very large, but should suffice
+//Extra: .bin
+
+
 import java.util.Scanner;
 
 public class Main {
@@ -13,7 +19,7 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
 
-        
+
         System.out.println("Type 'exit' to quit.");
         while (true) {
             String previousContext = contextStorage.loadContext();
